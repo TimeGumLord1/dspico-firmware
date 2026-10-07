@@ -33,7 +33,7 @@ jobs:
         make -j$(nproc)
 
     - name: Upload Firmware Artifact
-      uses: actions/artifacts/upload-artifact@v4
+      uses: actions/upload-artifact@v4
       with:
         name: dspico-no-autoboot
         path: build/*.uf2
