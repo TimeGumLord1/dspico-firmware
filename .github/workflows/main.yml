@@ -10,26 +10,17 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
-      with:
-        submodules: recursive
 
-    - name: Install Raspberry Pi Pico SDK Dependencies
+    - name: Install Build Tools and Pi Pico SDK
       run: |
         sudo apt-get update
-        sudo apt-get install -y cmake gcc-arm-none-eabi libnewlib-arm-none-eabi build-essential
-
-    - name: Set up Pico SDK
-      run: |
-        git clone --depth 1 --branch master https://github.com
-        cd pico-sdk
-        git submodule update --init
-        echo "PICO_SDK_PATH=$PWD" >> $GITHUB_ENV
+        sudo apt-get install -y cmake gcc-arm-none-eabi libnewlib-arm-none-eabi build-essential pico-sdk
 
     - name: Configure CMake and Build
       run: |
         mkdir build
         cd build
-        cmake ..
+        cmake -DPICO_SDK_PATH=/usr/share/pico-sdk ..
         make -j$(nproc)
 
     - name: Upload Firmware Artifact
