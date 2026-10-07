@@ -14,14 +14,13 @@ jobs:
     - name: Install Compiler Dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y cmake gcc-arm-none-eabi libnewlib-arm-none-eabi build-essential git
+        sudo apt-get install -y cmake gcc-arm-none-eabi libnewlib-arm-none-eabi build-essential wget unzip
 
-    - name: Download Pico SDK Manual
+    - name: Download Pre-packaged Pico SDK
       run: |
-        git clone --depth 1 https://github.com $HOME/pico-sdk
-        cd $HOME/pico-sdk
-        git submodule update --init --recursive
-        echo "PICO_SDK_PATH=$HOME/pico-sdk" >> $GITHUB_ENV
+        wget https://github.com
+        unzip pico-sdk-1.5.1.zip -d $HOME/pico-sdk-dist
+        echo "PICO_SDK_PATH=$HOME/pico-sdk-dist/pico-sdk-1.5.1" >> $GITHUB_ENV
 
     - name: Configure CMake and Build
       run: |
